@@ -1,20 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const intialState = {
+const initialState = {
   todos: [],
 };
 
 const addTodoReducer = createSlice({
   name: "todos",
-  intialState,
+  initialState,
   reducers: {
-    addTodos: (state, action) => {
-      state.push(action.payload);
-      return state;
-      // console.log(intialState);
+    addTodos: (state, payload) => {
+      console.log(payload);
+      state.todos.push({
+        id: Math.floor(Math.random() * 1000),
+        item: payload.payload,
+        completed: false,
+      });
     },
   },
 });
 
 export const { addTodos } = addTodoReducer.actions;
-export const reducers = addTodoReducer.reducer;
+export default addTodoReducer.reducer;

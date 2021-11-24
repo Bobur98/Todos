@@ -1,20 +1,10 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addTodos } from "../redux/reducer";
 
-const mapStateToProps = (state) => {
-  return {
-    // console.log(state);
-    todos: state,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addTodo: (obj) => dispatch(addTodos(obj)),
-  };
-};
 const Todos = (props) => {
+  const todos = useSelector((state) => state.todos.todos);
+  const dispatch = useDispatch();
   const [todo, setTodo] = useState("");
 
   const handleChange = (e) => {
@@ -30,21 +20,12 @@ const Todos = (props) => {
         onChange={(e) => handleChange(e)}
         className="todo-input"
       />
-      <button
-        className="add-btn"
-        onClick={() =>
-          props.addTodo({
-            id: Math.floor(Math.random() * 1000),
-            item: todo,
-            completed: false,
-          })
-        }
-      >
+      <button className="add-btn" onClick={() => dispatch(addTodos(todo))}>
         Add
       </button>
       <br />
       <ul>
-        {props.todos?.map((item) => {
+        {todos?.map((item) => {
           return <li key={item.id}>{item.item}</li>;
         })}
       </ul>
@@ -52,4 +33,4 @@ const Todos = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+export default Todos;
